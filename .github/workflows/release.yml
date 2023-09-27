@@ -1,47 +1,29 @@
-name: Android CI
-
-on:
-  release:
-    types: [published]
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Build with Gradle
-        run: ./gradlew assembleRelease
-
-      - name: Sign app APK
-        uses: ilharp/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDir: app/build/outputs/apk/release/
-          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
-          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          buildToolsVersion: 30.0.3
-
-      - name: Upload to Release Action
-        uses: Shopify/upload-to-release@v1.0.1
-        with:
-          name: xqe-sesame-${{ github.event.release.tag_name }}.apk
-          path: ${{ steps.sign_app.outputs.signedFile }}
-          repo-token: ${{ github.token }}
-          content-type: application/zip
+名字: Android CI
+在:
+释放；排放；发布:
+类型: [出版]
+工作:
+建设:
+许可: 全部写入
+连续运行: Ubuntu-最新版
+步伐:
+      - 使用: 动作/签出@v3
+随着:
+提取深度: 0
+      - 名字: 建立JDK 11号
+使用: 操作/设置-java@v3
+随着:
+java版本: '11'
+分布: 特穆林
+隐藏物: 格拉德勒
+      - 名字: 授予gradlew执行权限
+奔跑: chmod +x gradlew
+      - 名字: 与Gradle一起构建
+奔跑: 。/grad Lew assembled bug
+      - 名字: 上传至发布活动
+使用: shopify/上传到发布@v1.0.1
+随着:
+名字: 芝麻粒-${{github . event . release . v 1 . 2 . 1-预览2}}。apk
+小路: app/build/outputs/apk/debug/app-debug . apk
+回购令牌: ${{github.token}}
+内容类型: 应用程序/zip
